@@ -28,4 +28,13 @@ public class StudentService {
         }
     }
 
+    public String updateStudent(StudentDto studentDto){
+        if(studentRepo.existsById(studentDto.getId())){
+            studentRepo.save(modelMapper.map(studentDto , Student.class));
+            return retern_state.responce_Success;
+        }else {
+            return retern_state.responce_No_Data_Found;
+        }
+    }
+
 }
