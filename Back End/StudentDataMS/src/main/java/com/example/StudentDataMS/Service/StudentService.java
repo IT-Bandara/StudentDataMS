@@ -6,8 +6,13 @@ import com.example.StudentDataMS.Repo.StudentRepo;
 import com.example.StudentDataMS.Util.retern_state;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -35,6 +40,11 @@ public class StudentService {
         }else {
             return retern_state.responce_No_Data_Found;
         }
+    }
+
+    public List<StudentDto> allStudent(){
+        List<Student>  studentList = studentRepo.findAll();
+        return modelMapper.map(studentList , new TypeToken<ArrayList<StudentDto>>(){}.getType());
     }
 
 }

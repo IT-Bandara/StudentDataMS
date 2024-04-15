@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping("api/student")
@@ -76,5 +78,22 @@ public class StudentController {
            return new ResponseEntity(responceDto , HttpStatus.INTERNAL_SERVER_ERROR);
        }
    }
+
+   @GetMapping(value = "/allStudent")
+    public ResponseEntity allStudent(){
+       try{
+           List<StudentDto> studentList = studentService.allStudent();
+           responceDto.setCode(retern_state.responce_Success);
+           responceDto.setMassage("Success");
+           responceDto.setContent(studentList);
+           return new ResponseEntity(responceDto , HttpStatus.ACCEPTED);
+       }catch (Exception e){
+           responceDto.setCode(retern_state.responce_Error);
+           responceDto.setMassage(e.getMessage());
+           responceDto.setContent(null);
+           return new ResponseEntity(responceDto , HttpStatus.BAD_REQUEST);
+       }
+   }
+
 
 }
