@@ -56,4 +56,12 @@ public class StudentService {
         }
     }
 
+    public StudentDto search(int id){
+        if(studentRepo.existsById(id)){
+            Student student = studentRepo.findById(id).orElse(null);
+            return modelMapper.map(student , StudentDto.class);
+        }else {
+            return null;
+        }
+    }
 }

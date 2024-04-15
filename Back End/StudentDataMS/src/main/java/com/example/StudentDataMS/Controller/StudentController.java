@@ -124,5 +124,27 @@ public class StudentController {
        }
    }
 
+    @GetMapping(value = "/search/{id}")
+     public ResponseEntity search(@PathVariable int id){
+       try {
+           StudentDto student = studentService.search(id);
+           if(student != null){
+               responceDto.setCode(retern_state.responce_Success);
+               responceDto.setMassage("Student founf");
+               responceDto.setContent(student);
+               return new ResponseEntity(responceDto , HttpStatus.ACCEPTED);
+           }else {
+               responceDto.setCode(retern_state.responce_Error);
+               responceDto.setMassage("Student not Exist");
+               responceDto.setContent(null);
+               return new ResponseEntity(responceDto , HttpStatus.BAD_REQUEST);
+           }
+       }catch (Exception e){
+           responceDto.setCode(retern_state.responce_Error);
+           responceDto.setMassage(e.getMessage());
+           responceDto.setContent(null);
+           return new ResponseEntity(responceDto , HttpStatus.INTERNAL_SERVER_ERROR);
 
+       }
+    }
 }
