@@ -95,5 +95,34 @@ public class StudentController {
        }
    }
 
+   @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity delete(@PathVariable int id){
+       try {
+           String result = studentService.delete(id);
+
+           if(result.equals("00")){
+               responceDto.setCode(retern_state.responce_Success);
+               responceDto.setMassage("Deleted");
+               responceDto.setContent(null);
+               return new ResponseEntity(responceDto , HttpStatus.ACCEPTED);
+           } else if (result.equals("01")) {
+               responceDto.setCode(retern_state.responce_No_Data_Found);
+               responceDto.setMassage("Student not found");
+               responceDto.setContent(null);
+               return new ResponseEntity(responceDto , HttpStatus.BAD_REQUEST);
+           }else {
+               responceDto.setCode(retern_state.responce_Error);
+               responceDto.setMassage("Error");
+               responceDto.setContent(null);
+               return new ResponseEntity(responceDto , HttpStatus.BAD_REQUEST);
+           }
+       }catch (Exception e){
+           responceDto.setCode(retern_state.responce_Error);
+           responceDto.setMassage(e.getMessage());
+           responceDto.setContent(null);
+           return new ResponseEntity(responceDto , HttpStatus.INTERNAL_SERVER_ERROR);
+       }
+   }
+
 
 }

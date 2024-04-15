@@ -47,4 +47,13 @@ public class StudentService {
         return modelMapper.map(studentList , new TypeToken<ArrayList<StudentDto>>(){}.getType());
     }
 
+    public String delete(int id ){
+        if(studentRepo.existsById(id)){
+            studentRepo.deleteById(id);
+            return retern_state.responce_Success;
+        }else {
+            return retern_state.responce_No_Data_Found;
+        }
+    }
+
 }
