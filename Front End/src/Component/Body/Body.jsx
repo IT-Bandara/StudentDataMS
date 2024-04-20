@@ -1,6 +1,9 @@
 import React from 'react';
 
 function Body() {
+
+
+
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
             <table className="table table-striped border mt-5 mx-5">
@@ -45,9 +48,10 @@ function Body() {
                         <td>0776594737</td>
                         <td>3.355</td>
                         <td>
-                            <button type="button" className="btn btn-warning mx-2 " style={{ fontSize: "13px", padding: '3px' }}>
+                            <button type="button" className="btn btn-warning mx-2 " style={{ fontSize: "13px", padding: '3px' }} >
                                 Delete
                             </button>
+                            
                             <button type="button" className="btn btn-danger mx-0" style={{ fontSize: "13px", padding: '3px' }}>
                                 Update
                             </button>

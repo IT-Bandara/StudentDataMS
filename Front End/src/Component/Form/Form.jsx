@@ -159,7 +159,7 @@
 
 import React, { useState } from 'react';
 
-function Form() {
+function Form(props) {
   const [inputData, setInputData] = useState({
     name: '',
     email: '',
@@ -310,9 +310,9 @@ function Form() {
 
           <div className="btn">
             <button type="submit" className="btn btn-info">
-              Update
+              {props.name}
             </button>
-            <button type="button" className="btn btn-info">
+            <button type="button" className="btn btn-info" onClick = {props.onClose}>
               Cancel
             </button>
           </div>
