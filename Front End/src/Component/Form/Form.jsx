@@ -158,6 +158,7 @@
 
 
 import React, { useState } from 'react';
+import './Form.css'
 
 function Form(props) {
   const [inputData, setInputData] = useState({
@@ -233,7 +234,7 @@ function Form(props) {
   };
 
   return (
-    <div>
+    <div className='popup-overlay '>
       <form onSubmit={handleSubmit}>
         <div className="content">
           <div className="input-feeld">
@@ -308,11 +309,11 @@ function Form(props) {
           </div>
           {gpaError && <p className="error">{gpaError}</p>}
 
-          <div className="btn">
-            <button type="submit" className="btn btn-info">
+          <div className="buttons">
+            <button type="submit" className="btn btn-info mx-1">
               {props.name}
             </button>
-            <button type="button" className="btn btn-info" onClick = {props.onClose}>
+            <button type="button" className="btn btn-info mx-1" onClick = {props.onClose}>
               Cancel
             </button>
           </div>

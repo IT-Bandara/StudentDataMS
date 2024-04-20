@@ -3,7 +3,7 @@ import Form from '../Form/Form';
 
 function Body() {
 
-    const [isFormVisible , setIsFormVisible] = useState(false);
+    const [isFormVisible, setIsFormVisible] = useState(false);
 
     const openPopUp = () => {
         setIsFormVisible(!isFormVisible);
@@ -13,7 +13,7 @@ function Body() {
         setIsFormVisible(false);
     };
 
-    
+
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
             <table className="table table-striped border mt-5 mx-5">
@@ -40,14 +40,14 @@ function Body() {
                         <td>0776594937</td>
                         <td>3.355</td>
                         <td>
-                        <button type="button" className="btn btn-danger mx-0" style={{ fontSize: "13px", padding: '3px' }} onClick={openPopUp}>
+                            <button type="button" className="btn btn-warning mx-2" style={{ fontSize: "13px", padding: '3px' }} onClick={openPopUp}>
                                 Update
                             </button>
-                            {isFormVisible && <Form onClose = {closePopUp} name = 'Update'/>}
-                            <button type="button" className="btn btn-warning mx-2 " style={{ fontSize: "13px", padding: '3px' }}>
+                            {isFormVisible && <Form onClose={closePopUp} name='Update' />}
+                            <button type="button" className="btn btn-danger mx-2 " style={{ fontSize: "13px", padding: '3px' }}>
                                 Delete
                             </button>
-                            
+
                         </td>
                     </tr>
 
@@ -63,7 +63,7 @@ function Body() {
                             <button type="button" className="btn btn-warning mx-2 " style={{ fontSize: "13px", padding: '3px' }} >
                                 Delete
                             </button>
-                            
+
                             <button type="button" className="btn btn-danger mx-0" style={{ fontSize: "13px", padding: '3px' }}>
                                 Update
                             </button>
