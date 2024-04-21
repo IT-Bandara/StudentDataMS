@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Form from '../Form/Form';
+import axios from 'axios';
 
 function Body() {
 
@@ -12,6 +13,25 @@ function Body() {
     const closePopUp = () => {
         setIsFormVisible(false);
     };
+
+    //----------------------------------
+
+    const [student , setStudent] = useState([]);
+
+    const fetchStudent = async () => {
+        try{
+            const responce = await axios.get('http://localhost:8080/api/student/allStudent');
+            if(responce.data.code === '00'){
+                setStudent(responce.data.content)
+            }
+        }catch(error){
+            console.error('Error fetching Students:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchStudent();
+    },[]);
 
 
     return (
@@ -31,7 +51,29 @@ function Body() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+
+                    {student.map(student => (
+                        <tr>
+                            <td>{student.id}</td>
+                        <td>{student.name}</td>
+                        <td>{student.email}</td>
+                        <td>{student.birthDay}</td>
+                        <td>{student.address}</td>
+                        <td>{student.contactNo}</td>
+                        <td>{student.gpa}</td>
+                        <td>
+                            <button type="button" className="btn btn-warning mx-2" style={{ fontSize: "13px", padding: '3px' }} onClick={openPopUp}>
+                                Update
+                            </button>
+                            {isFormVisible && <Form onClose={closePopUp} name='Update' />}
+                            <button type="button" className="btn btn-danger mx-2 " style={{ fontSize: "13px", padding: '3px' }}>
+                                Delete
+                            </button>
+
+                        </td>
+                        </tr>
+                    ))}
+                    {/* <tr>
                         <td>1</td>
                         <td>Isuru</td>
                         <td>isurutharakabandara@gmail.com</td>
@@ -86,7 +128,7 @@ function Body() {
                                 Update
                             </button>
                         </td>
-                    </tr>
+                    </tr> */}
                 </tbody>
             </table>
         </div>
