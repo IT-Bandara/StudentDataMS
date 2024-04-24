@@ -5,10 +5,10 @@ import Head from './Component/Head/Head';
 function App() {
   return (
     <div className="App">
-      
-     <Head/>
-     <Body/>
-  
+
+      <Head />
+      <Body />
+
     </div>
   );
 }

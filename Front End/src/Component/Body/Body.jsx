@@ -16,22 +16,22 @@ function Body() {
 
     //----------------------------------
 
-    const [student , setStudent] = useState([]);
+    const [student, setStudent] = useState([]);
 
     const fetchStudent = async () => {
-        try{
+        try {
             const responce = await axios.get('http://localhost:8080/api/student/allStudent');
-            if(responce.data.code === '00'){
+            if (responce.data.code === '00') {
                 setStudent(responce.data.content)
             }
-        }catch(error){
+        } catch (error) {
             console.error('Error fetching Students:', error);
         }
     };
 
     useEffect(() => {
         fetchStudent();
-    },[]);
+    }, [fetchStudent]);
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -54,22 +54,22 @@ function Body() {
                     {student.map(student => (
                         <tr>
                             <td>{student.id}</td>
-                        <td>{student.name}</td>
-                        <td>{student.email}</td>
-                        <td>{student.birthDay}</td>
-                        <td>{student.address}</td>
-                        <td>{student.contactNo}</td>
-                        <td>{student.gpa}</td>
-                        <td>
-                            <button type="button" className="btn btn-warning mx-2" style={{ fontSize: "13px", padding: '3px' }} onClick={openPopUp}>
-                                Update
-                            </button>
-                            {isFormVisible && <Form onClose={closePopUp} name='Update' />}
-                            <button type="button" className="btn btn-danger mx-2 " style={{ fontSize: "13px", padding: '3px' }}>
-                                Delete
-                            </button>
+                            <td>{student.name}</td>
+                            <td>{student.email}</td>
+                            <td>{student.birthDay}</td>
+                            <td>{student.address}</td>
+                            <td>{student.contactNo}</td>
+                            <td>{student.gpa}</td>
+                            <td>
+                                <button type="button" className="btn btn-warning mx-2" style={{ fontSize: "13px", padding: '3px' }} onClick={openPopUp}>
+                                    Update
+                                </button>
+                                {isFormVisible && <Form onClose={closePopUp} name='Update' />}
+                                <button type="button" className="btn btn-danger mx-2 " style={{ fontSize: "13px", padding: '3px' }}>
+                                    Delete
+                                </button>
 
-                        </td>
+                            </td>
                         </tr>
                     ))}
                     {/* <tr>

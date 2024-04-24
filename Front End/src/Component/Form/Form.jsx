@@ -344,7 +344,7 @@ function Form(props) {
   });
   const { name, email, birthday, address, contactNo, gpa } = inputData;
 
-  const [error , setError] = useState({
+  const [error, setError] = useState({
     name: '',
     email: '',
     birthday: '',
@@ -362,7 +362,7 @@ function Form(props) {
 
     setError({
       ...error,
-      [name] : ''
+      [name]: ''
     })
   };
 
@@ -380,7 +380,7 @@ function Form(props) {
     setError(newError);
 
     Object.values(newError).forEach((error) => {
-      if(error){        // check for error !== null
+      if (error) {        // check for error !== null
         valid = false;
       }
     })
@@ -390,9 +390,9 @@ function Form(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if(validateField()){
-      
-      try{
+    if (validateField()) {
+
+      try {
         const response = await axios.post('http://localhost:8080/api/student/save', {
           name: name,
           email: email,
@@ -413,14 +413,11 @@ function Form(props) {
           gpa: ''
         });
 
-      }catch(err){
-        alert("Error :" ,err);
+      } catch (err) {
+        alert("Error :", err);
       }
     }
   };
-
-
-
 
   return (
     <div className='popup-overlay '>
@@ -496,7 +493,7 @@ function Form(props) {
             <button type="submit" className="btn btn-info mx-1">
               {props.name}
             </button>
-            <button type="button" className="btn btn-info mx-1" onClick = {props.onClose}>
+            <button type="button" className="btn btn-info mx-1" onClick={props.onClose}>
               Cancel
             </button>
           </div>
