@@ -33,7 +33,6 @@ function Body() {
         fetchStudent();
     },[]);
 
-
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
             <table className="table table-striped border mt-5 mx-5">
