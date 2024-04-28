@@ -335,19 +335,19 @@ import axios from 'axios';
 
 function Form(props) {
   const [inputData, setInputData] = useState({
-    name: '',
-    email: '',
-    birthday: '',
-    address: '',
-    contactNo: '',
-    gpa: ''
+    name: props.student?.name || '',
+    email: props.student?.email || '',
+    birthDay: props.student?.birthDay || '',
+    address: props.student?.address || '',
+    contactNo: props.student?.contactNo || '',
+    gpa: props.student?.gpa || '',
   });
-  const { name, email, birthday, address, contactNo, gpa } = inputData;
+  const { name, email, birthDay, address, contactNo, gpa } = inputData;
 
   const [error, setError] = useState({
     name: '',
     email: '',
-    birthday: '',
+    birthDay: '',
     address: '',
     contactNo: '',
     gpa: ''
@@ -371,7 +371,7 @@ function Form(props) {
     const newError = {
       name: name ? '' : 'Name is required!!',
       email: email ? (/\S+@\S+\.\S+/.test(email) ? '' : 'Invalid email address!!') : 'Email is required!!',
-      birthday: birthday ? '' : 'Birthday is required!!',
+      birthDay: birthDay ? '' : 'Birthday is required!!',
       address: address ? '' : 'Address is required!!',
       contactNo: contactNo ? (contactNo.length === 10 ? '' : 'Contact number is not correct!!') : 'Contact number is required!!',
       gpa: gpa ? (gpa > 4 ? 'Invalid GPA!!' : '') : 'GPA is required!!'
@@ -392,29 +392,105 @@ function Form(props) {
 
     if (validateField()) {
 
-      try {
-        const response = await axios.post('http://localhost:8080/api/student/save', {
-          name: name,
-          email: email,
-          birthday: birthday,
-          address: address,
-          contactNo: contactNo,
-          gpa: gpa
-        });
+      // try {
+      //   const response = await axios.post(
+      //     props.name === "Add Student"
+      //       ? 'http://localhost:8080/api/student/save'
+      //       : 'http://localhost:8080/api/student/update',
+      //       {
+      //         "id" : props.student.id,
+      //         "email" : email,
+      //         "name" : name,
+      //         "birthDay" : birthDay,
+      //         "address" : address,
+      //         "contactNo" : contactNo,
+      //         "gpa" : gpa
+      //   }
+      //   );
 
-        console.log(response.data);
-        alert('Student saved successfully');
-        setInputData({
-          name: '',
-          email: '',
-          birthday: '',
-          address: '',
-          contactNo: '',
-          gpa: ''
-        });
+      //   console.log(response.data);
+      //   alert(props.name === "Add Student" ? 'Student saved successfully' : 'Student updated successfully');
+      //   setInputData({
+      //     name: '',
+      //     email: '',
+      //     birthDay: '',
+      //     address: '',
+      //     contactNo: '',
+      //     gpa: ''
+      //   });
+      // } catch (err) {
+      //   if (err.response && err.response.data && err.response.data.message) {
+      //     // If the error response contains a message property, display it
+      //     alert("Server Error: " + err.response.data.message);
+      //   } else if (err.response && err.response.status) {
+      //     // If there's no message property but the response contains a status code, display the status code
+      //     alert("Server Error: " + err.response.status);
+      //   } else {
+      //     // If no specific error message is available, display a generic error message
+      //     alert("Error: " + err.message);
+      //   }
+      // }
 
-      } catch (err) {
-        alert("Error :", err);
+      if (props.name === "Add Student") {
+        try {
+          const response = await axios.post('http://localhost:8080/api/student/save',
+            {
+              "email": email,
+              "name": name,
+              "birthDay": birthDay,
+              "address": address,
+              "contactNo": contactNo,
+              "gpa": gpa
+            });
+
+          console.log(response.data);
+          alert('Student saved successfully');
+          setInputData({
+            name: '',
+            email: '',
+            birthday: '',
+            address: '',
+            contactNo: '',
+            gpa: ''
+          });
+
+        } catch (err) {
+          if (err.response && err.response.data && err.response.data.message) {
+            // If the error response contains a message property, display it
+            alert("Server Error: " + err.response.data.message);
+          } else {
+            // If no specific error message is available, display a generic error message
+            alert("Error: " + err.message);
+          }
+        }
+      } else {
+        try {
+          const response = await axios.post('http://localhost:8080/api/student/update', {
+            "id": props.student.id,
+            "email": email,
+            "name": name,
+            "birthDay": birthDay,
+            "address": address,
+            "contactNo": contactNo,
+            "gpa": gpa
+          });
+
+          console.log(response.data);
+          alert('Student update successfully');
+
+
+        } catch (err) {
+          if (err.response && err.response.data && err.response.data.message) {
+            // If the error response contains a message property, display it
+            alert("Server Error: " + err.response.data.message);
+          } else if (err.response && err.response.status) {
+            // If there's no message property but the response contains a status code, display the status code
+            alert("Server Error: " + err.response.status);
+          } else {
+            // If no specific error message is available, display a generic error message
+            alert("Error: " + err.message);
+          }
+        }
       }
     }
   };
@@ -449,12 +525,12 @@ function Form(props) {
             <label>Birth day</label>
             <input
               type="date"
-              name="birthday"
-              value={birthday}
+              name="birthDay"
+              value={birthDay}
               onChange={handleChange}
             />
           </div>
-          {error.birthday && <p className="error">{error.birthday}</p>}
+          {error.birthDay && <p className="error">{error.birthDay}</p>}
 
           <div className="input-feeld">
             <label>Address</label>

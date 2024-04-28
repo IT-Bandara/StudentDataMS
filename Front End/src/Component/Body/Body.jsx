@@ -4,22 +4,9 @@ import axios from 'axios';
 
 function Body() {
 
-    const [openForms, setOpenForms] = useState({});
-
-    const openPopUp = (studentId) => {
-        setOpenForms(prevState => ({
-            ...prevState,
-            [studentId]: true
-        }));    };
-
-        const closePopUp = (studentId) => {
-            setOpenForms(prevState => ({
-                ...prevState,
-                [studentId]: false
-            }));
-        };
-
     const [student, setStudent] = useState([]);
+    const [openForms, setOpenForms] = useState({});
+    const [selectStudent , setSelectStudent ] = useState();
 
     useEffect(() => {
 
@@ -33,8 +20,29 @@ function Body() {
                 console.error('Error fetching Students:', error);
             }
         };
+
         fetchStudent();
-    },[]);
+
+    }, []);
+
+
+    const openPopUp = (selectStudent) => {
+        setOpenForms(prevState => ({
+            ...prevState,
+            [selectStudent.id]: true
+        }));
+        setSelectStudent(selectStudent);
+    };
+
+    const closePopUp = (studentid) => {
+        setOpenForms(prevState => ({
+            ...prevState,
+            [studentid]: false
+        }));
+        setSelectStudent(null);
+    };
+
+
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -54,7 +62,7 @@ function Body() {
                 </thead>
                 <tbody>
 
-                     {student.map((student, index) => (
+                    {student.map((student, index) => (
                         <tr key={index}>
                             <td>{index + 1}</td>
                             <td>{student.name}</td>
@@ -63,22 +71,24 @@ function Body() {
                             <td>{student.address}</td>
                             <td>{student.contactNo}</td>
                             <td>{student.gpa}</td>
-                            <td style={{ backgroundColor: 'transparent'}}>
-                                <button type="button" 
-                                        className="btn btn-warning mx-2" 
-                                        style={{ fontSize: "13px", padding: '3px' }} 
-                                        onClick={() => openPopUp(student.id)}>
+                            <td>
+                                <button 
+                                    type="button" 
+                                    className="btn btn-warning mx-2" 
+                                    style={{ fontSize: "13px", padding: '3px' }} 
+                                    onClick={() => openPopUp(student)}>
                                     Update
                                 </button>
-                                {openForms[student.id] && <Form onClose={() => closePopUp(student.id)} name='Update' />}                                <button type="button" className="btn btn-danger mx-2 " style={{ fontSize: "13px", padding: '3px' }}>
+                                {openForms[student.id] && <Form onClose={() => closePopUp(student.id)} name='Update' student={selectStudent} />}
+
+                                <button type="button" className="btn btn-danger mx-2 " style={{ fontSize: "13px", padding: '3px' }}>
                                     Delete
                                 </button>
-
                             </td>
                         </tr>
-                    ))} 
+                    ))}
 
-                 {/*    <tr>
+                    {/*    <tr>
                         <td>1</td>
                         <td>Isuru</td>
                         <td>isurutharakabandara@gmail.com</td>
