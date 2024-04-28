@@ -4,34 +4,37 @@ import axios from 'axios';
 
 function Body() {
 
-    const [isFormVisible, setIsFormVisible] = useState(false);
+    const [openForms, setOpenForms] = useState({});
 
-    const openPopUp = () => {
-        setIsFormVisible(!isFormVisible);
-    };
+    const openPopUp = (studentId) => {
+        setOpenForms(prevState => ({
+            ...prevState,
+            [studentId]: true
+        }));    };
 
-    const closePopUp = () => {
-        setIsFormVisible(false);
-    };
-
-    //----------------------------------
+        const closePopUp = (studentId) => {
+            setOpenForms(prevState => ({
+                ...prevState,
+                [studentId]: false
+            }));
+        };
 
     const [student, setStudent] = useState([]);
 
-    const fetchStudent = async () => {
-        try {
-            const responce = await axios.get('http://localhost:8080/api/student/allStudent');
-            if (responce.data.code === '00') {
-                setStudent(responce.data.content)
-            }
-        } catch (error) {
-            console.error('Error fetching Students:', error);
-        }
-    };
-
     useEffect(() => {
+
+        const fetchStudent = async () => {
+            try {
+                const responce = await axios.get('http://localhost:8080/api/student/allStudent');
+                if (responce.data.code === '00') {
+                    setStudent(responce.data.content)
+                }
+            } catch (error) {
+                console.error('Error fetching Students:', error);
+            }
+        };
         fetchStudent();
-    }, [fetchStudent]);
+    },[]);
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -51,28 +54,31 @@ function Body() {
                 </thead>
                 <tbody>
 
-                    {student.map(student => (
-                        <tr>
-                            <td>{student.id}</td>
+                     {student.map((student, index) => (
+                        <tr key={index}>
+                            <td>{index + 1}</td>
                             <td>{student.name}</td>
                             <td>{student.email}</td>
                             <td>{student.birthDay}</td>
                             <td>{student.address}</td>
                             <td>{student.contactNo}</td>
                             <td>{student.gpa}</td>
-                            <td>
-                                <button type="button" className="btn btn-warning mx-2" style={{ fontSize: "13px", padding: '3px' }} onClick={openPopUp}>
+                            <td style={{ backgroundColor: 'transparent'}}>
+                                <button type="button" 
+                                        className="btn btn-warning mx-2" 
+                                        style={{ fontSize: "13px", padding: '3px' }} 
+                                        onClick={() => openPopUp(student.id)}>
                                     Update
                                 </button>
-                                {isFormVisible && <Form onClose={closePopUp} name='Update' />}
-                                <button type="button" className="btn btn-danger mx-2 " style={{ fontSize: "13px", padding: '3px' }}>
+                                {openForms[student.id] && <Form onClose={() => closePopUp(student.id)} name='Update' />}                                <button type="button" className="btn btn-danger mx-2 " style={{ fontSize: "13px", padding: '3px' }}>
                                     Delete
                                 </button>
 
                             </td>
                         </tr>
-                    ))}
-                    {/* <tr>
+                    ))} 
+
+                 {/*    <tr>
                         <td>1</td>
                         <td>Isuru</td>
                         <td>isurutharakabandara@gmail.com</td>

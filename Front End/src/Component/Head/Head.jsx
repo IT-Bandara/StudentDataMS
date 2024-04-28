@@ -33,7 +33,7 @@ function Head() {
                 <button type="button" class="btn btn-primary" style={{ marginLeft: '20px', fontSize: '1.2rem' }} onClick={toggleForm}>
                   Add Student
                 </button>
-                {isFormVisible && <Form  onClose = {closePopUp}  name='Add Student'/>}
+                {isFormVisible && <Form  onClose = {closePopUp}  name='Add Student' />}
               </li>
             </ul>
           </div>
