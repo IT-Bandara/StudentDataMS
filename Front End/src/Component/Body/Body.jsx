@@ -51,14 +51,18 @@ function Body() {
         }));
     }
 
-    const handleDelete = () => {
-        console.log(selectStudent.name);
+    const handleDelete = async () => {
+        try {
+            await axios.delete(`http://localhost:8080/api/student/delete/${selectStudent.id}`);
+            console.log(selectStudent.name);
+        } catch (err) {
+            if (err.response && err.response.status) {
+                alert("Server Error: " + err.response.status);
+            } else {
+                alert("Error: " + err.message);
+            }
+        }
 
-        // setShowAlert((prevAlerts) => ({
-        //     ...prevAlerts,
-        //     [selectStudent.id]: false,
-        //   }));
-        // setSelectStudent(null);  
         handleCloseAlert();
     }
 
@@ -107,33 +111,32 @@ function Body() {
                                 </button>
                                 {openForms[student.id] && <Form onClose={() => closePopUp(student.id)} name='Update' student={selectStudent} />}
 
-                                
-                                    <button
-                                        type="button"
-                                        className="btn btn-danger mx-2 "
-                                        style={{ fontSize: "13px", padding: '3px' }}
-                                        onClick={() => openAlert(student)}>
-                                        Delete
-                                    </button>
 
-                                    {showAlert[student.id] && (
-                                        <div
+                                <button
+                                    type="button"
+                                    className="btn btn-danger mx-2 "
+                                    style={{ fontSize: "13px", padding: '3px' }}
+                                    onClick={() => openAlert(student)}>
+                                    Delete
+                                </button>
+
+                                {showAlert[student.id] && (
+                                    <div
                                         style={{ position: 'fixed', top: '0', left: '0', width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: '1000', display: 'flex', justifyContent: 'center', alignItems: 'center' }}                                            >
-                                            <div className="alert alert-danger" role="alert"
-                                            style={{ zIndex: '1001', padding: '20px', borderRadius: '5px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}
-                                            >
-                                                Are you sure, you want to delete this student ({student.name})?
-                                                <br />
+                                        <div className="alert alert-danger" role="alert"
+                                            style={{ zIndex: '1001', padding: '20px', borderRadius: '5px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}>
+                                            Are you sure, you want to delete this student ({student.name})?
+                                            <br />
 
-                                                <div style={{ textAlign: 'right' }}>
-                                                    <button onClick={handleDelete} className="btn btn-danger mx-2">Yes</button>
-                                                    <button onClick={handleCloseAlert} className="btn btn-secondary">No</button>
-                                                </div>
-
+                                            <div style={{ textAlign: 'right' }}>
+                                                <button onClick={handleDelete} className="btn btn-danger mx-2">Yes</button>
+                                                <button onClick={handleCloseAlert} className="btn btn-secondary">No</button>
                                             </div>
+
                                         </div>
-                                    )}
-                                
+                                    </div>
+                                )}
+
                             </td>
                         </tr>
                     ))}
