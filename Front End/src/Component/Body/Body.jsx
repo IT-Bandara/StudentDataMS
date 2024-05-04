@@ -24,6 +24,12 @@ function Body() {
 
         fetchStudent();
 
+          // Polling to fetch updated students data every 5 seconds
+          const pollingInterval = setInterval(fetchStudent, 5000);
+
+          // Cleanup the interval when component unmounts
+          return () => clearInterval(pollingInterval);
+
     }, []);
 
 
