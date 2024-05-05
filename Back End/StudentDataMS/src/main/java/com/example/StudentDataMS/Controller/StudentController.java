@@ -25,7 +25,7 @@ public class StudentController {
    @PostMapping(value = "/save")
     public ResponseEntity saveStudent(@RequestBody StudentDto studentDto){
        try{
-           String result = studentService.saveStudet(studentDto);
+           String result = studentService.saveStudent(studentDto);
            if(result.equals("00")){
                 responceDto.setCode(retern_state.responce_Success);
                 responceDto.setMassage("Success");
@@ -124,27 +124,43 @@ public class StudentController {
        }
    }
 
-    @GetMapping(value = "/search/{id}")
-     public ResponseEntity search(@PathVariable int id){
-       try {
-           StudentDto student = studentService.search(id);
-           if(student != null){
-               responceDto.setCode(retern_state.responce_Success);
-               responceDto.setMassage("Student founf");
-               responceDto.setContent(student);
-               return new ResponseEntity(responceDto , HttpStatus.ACCEPTED);
-           }else {
-               responceDto.setCode(retern_state.responce_Error);
-               responceDto.setMassage("Student not Exist");
-               responceDto.setContent(null);
-               return new ResponseEntity(responceDto , HttpStatus.BAD_REQUEST);
-           }
-       }catch (Exception e){
-           responceDto.setCode(retern_state.responce_Error);
-           responceDto.setMassage(e.getMessage());
-           responceDto.setContent(null);
-           return new ResponseEntity(responceDto , HttpStatus.INTERNAL_SERVER_ERROR);
+//    @GetMapping(value = "/search/{id}")
+//     public ResponseEntity search(@PathVariable int id){
+//       try {
+//           StudentDto student = studentService.search(id);
+//           if(student != null){
+//               responceDto.setCode(retern_state.responce_Success);
+//               responceDto.setMassage("Student found");
+//               responceDto.setContent(student);
+//               return new ResponseEntity(responceDto , HttpStatus.ACCEPTED);
+//           }else {
+//               responceDto.setCode(retern_state.responce_Error);
+//               responceDto.setMassage("Student not Exist");
+//               responceDto.setContent(null);
+//               return new ResponseEntity(responceDto , HttpStatus.BAD_REQUEST);
+//           }
+//       }catch (Exception e){
+//           responceDto.setCode(retern_state.responce_Error);
+//           responceDto.setMassage(e.getMessage());
+//           responceDto.setContent(null);
+//           return new ResponseEntity(responceDto , HttpStatus.INTERNAL_SERVER_ERROR);
+//
+//       }
+//    }
 
-       }
+    @GetMapping(value = "/search/{name}")
+    public ResponseEntity search(@PathVariable String name){
+        try{
+            List<StudentDto> studentList = studentService.searchByName(name);
+            responceDto.setCode(retern_state.responce_Success);
+            responceDto.setMassage("Success");
+            responceDto.setContent(studentList);
+            return new ResponseEntity(responceDto , HttpStatus.ACCEPTED);
+        }catch (Exception e){
+            responceDto.setCode(retern_state.responce_Error);
+            responceDto.setMassage(e.getMessage());
+            responceDto.setContent(null);
+            return new ResponseEntity(responceDto , HttpStatus.BAD_REQUEST);
+        }
     }
 }
