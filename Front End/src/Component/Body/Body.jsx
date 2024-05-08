@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Form from '../Form/Form';
 import axios from 'axios';
 
-function Body() {
+function Body({ filteredStudents }) {
 
     const [student, setStudent] = useState([]);
     const [openForms, setOpenForms] = useState({});
@@ -98,7 +98,7 @@ function Body() {
                 </thead>
                 <tbody>
 
-                    {student.map((student, index) => (
+                    {(filteredStudents.length > 0 ? filteredStudents : student).map((student, index) => (
                         <tr key={index}>
                             <td>{index + 1}</td>
                             <td>{student.name}</td>
